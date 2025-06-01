@@ -1,0 +1,38 @@
+class SomethingWentWrong extends StatelessWidget {
+  final VoidCallback? onRetry;  // Made nullable with ?
+  
+  const SomethingWentWrong({super.key, this.onRetry});  // Removed required
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.error_outline, size: 64, color: Colors.red),
+          const SizedBox(height: 16),
+          const Text(
+            'Ops! Algo deu errado',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Não foi possível carregar os dados',
+            style: TextStyle(fontSize: 14),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          if (onRetry != null) // Only show button if onRetry is provided
+            ElevatedButton(
+              onPressed: onRetry,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Tentar novamente'),
+            ),
+        ],
+      ),
+    );
+  }
+}
