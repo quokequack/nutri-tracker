@@ -7,7 +7,6 @@ import 'screens/medications_screen.dart';
 import 'screens/activity_screen.dart';
 import 'screens/summary_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart'; 
 
 
 Future<void> main() async {
@@ -71,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   final List<String> _screenTitles = [
-    'Início',
+    'Início', 
     'Refeições',
     'Relatórios',
     'Glucose',
@@ -87,8 +86,8 @@ class _MainScreenState extends State<MainScreen> {
         title: Text(_screenTitles[_currentIndex]),
       ),
       body: _screens[_currentIndex],
-      drawer: Drawer(
-        child: ListView(
+      drawer: Drawer( 
+        child: ListView( 
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(

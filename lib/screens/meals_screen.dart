@@ -19,7 +19,7 @@ class _MealsScreenState extends State<MealsScreen> {
     setState(() => _isLoading = true);
     try {
       await firestore.collection('refeicoes').add({
-        'nome': name,
+        'nome': name, 
         'horario': time,
         'createdAt': FieldValue.serverTimestamp(),
       });
@@ -61,7 +61,7 @@ class _MealsScreenState extends State<MealsScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
-                if (_mealNameController.text.isNotEmpty && 
+                if (_mealNameController.text.isNotEmpty &&
                     _mealTimeController.text.isNotEmpty) {
                   await addMeal(
                     _mealNameController.text,
@@ -102,38 +102,8 @@ class _MealsScreenState extends State<MealsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Verificação de conexão com Firebase
-    try {
-      FirebaseFirestore.instance;
-    } catch (e) {
-      return Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Erro de conexão com o banco de dados'),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => setState(() {}),
-                child: const Text('Tentar novamente'),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Refeições'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: () => _shareMeals([]), // Será atualizado no StreamBuilder
-            tooltip: 'Compartilhar',
-          ),
-        ],
-      ),
+      appBar: AppBar(title: const Text('Refeições')),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddMealDialog,
         child: _isLoading
@@ -142,7 +112,7 @@ class _MealsScreenState extends State<MealsScreen> {
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: firestore
-            .collection('refeicoes')
+            .collection('refeicoes') 
             .orderBy('createdAt', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
@@ -156,11 +126,20 @@ class _MealsScreenState extends State<MealsScreen> {
 
           final mealsDocs = snapshot.data!.docs;
 
-          // Atualiza a função de compartilhar com os dados reais
-          void updateShareAction() => _shareMeals(mealsDocs);
-
           return Column(
             children: [
+              if (mealsDocs.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton.icon(
+                      onPressed: () => _shareMeals(mealsDocs),
+                      icon: const Icon(Icons.share),
+                      label: const Text('Compartilhar'),
+                    ),
+                  ),
+                ),
               if (mealsDocs.isEmpty)
                 const Expanded(
                   child: Center(
@@ -188,7 +167,7 @@ class _MealsScreenState extends State<MealsScreen> {
                           trailing: IconButton(
                             icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () async {
-                              await firestore
+                              await firestore 
                                   .collection('refeicoes')
                                   .doc(meal.id)
                                   .delete();
